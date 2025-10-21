@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: ankane/pgvector:latest 
+    container_name: n8n_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: mb_agent_adryo_dev
+      POSTGRES_USER: adminp
+      POSTGRES_PASSWORD: BResOPOQFKalU30M2d6E
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n_app
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "5678:5678"
+    depends_on:
+      - postgres
+    environment:
+       # --- Configuración general ---
+      NODE_ENV: production
+      N8N_HOST: valvular-lashanda-unflaggingly.ngrok-free.dev
+      N8N_PORT: 5678
+      WEBHOOK_URL: https://rosaura-nonnutritive-emerald.ngrok-free.dev
+      NODE_OPTIONS: --max-old-space-size=4096 
+
+      # --- Seguridad básica ---
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: admin
+      N8N_BASIC_AUTH_PASSWORD: admin123
+      N8N_ENCRYPTION_KEY: "906024f9-5296-4f29-840c-23d31784ee63"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+
+      # --- Configuración de Base de Datos ---
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: mb_agent_adryo_dev
+      DB_POSTGRESDB_USER: adminp
+      DB_POSTGRESDB_PASSWORD: BResOPOQFKalU30M2d6E
+
+      # --- Opcional: para evitar problemas de red ---
+      GENERIC_TIMEZONE: "America/Mexico_City"
+
+    deploy:
+      resources:
+        limits:
+          memory: 6g   # Límite de 6 GB para el contenedor
+        reservations:
+          memory: 4g   # Reservar 4 GB para el contenedor
+      
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+      - ./n8n_cache:/home/node/.cache
+
+volumes:
+  postgres_data:
