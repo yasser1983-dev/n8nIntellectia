@@ -1,19 +1,6 @@
 # version: '3.8'
 
 services:
-  postgres:
-    image: ankane/pgvector:latest 
-    container_name: n8n_postgres
-    restart: unless-stopped
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: mb_agent_adryo
-      POSTGRES_USER: adminp
-      POSTGRES_PASSWORD: BResOPOQFKalU30M2d6E
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   n8n:
     image: n8nio/n8n:latest
     container_name: n8n_app
@@ -44,11 +31,12 @@ services:
 
       # --- Configuración de Base de Datos ---
       DB_TYPE: postgresdb
-      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_HOST: postgres-adryo.cf4ew4oeuyd2.us-east-2.rds.amazonaws.com
       DB_POSTGRESDB_PORT: 5432
       DB_POSTGRESDB_DATABASE: mb_agent_adryo
-      DB_POSTGRESDB_USER: adminp
-      DB_POSTGRESDB_PASSWORD: BResOPOQFKalU30M2d6E
+      DB_POSTGRESDB_USER: intellectia
+      DB_POSTGRESDB_PASSWORD: 1ntel1-Adm
+      DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED: "false"
 
       # --- Opcional: para evitar problemas de red ---
       GENERIC_TIMEZONE: "America/Mexico_City"
@@ -56,6 +44,3 @@ services:
     volumes:
       - ./n8n_data:/home/node/.n8n
       - ./n8n_cache:/home/node/.cache
-
-volumes:
-  postgres_data:
