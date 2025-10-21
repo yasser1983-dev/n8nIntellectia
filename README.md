@@ -16,3 +16,8 @@ docker compose up -d --force-recreate
 ## Realizar salva de base de datos en contenedor de docker
 
 docker exec n8n_postgres pg_dump -U adminp -d mb_agent_adryo_dev_conmetadatos > /home/yasser/adryo_db_vector_backup.sql
+
+
+## Ver logs de n8n
+
+docker compose logs -f n8n
