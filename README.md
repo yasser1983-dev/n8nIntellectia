@@ -21,3 +21,10 @@ docker exec n8n_postgres pg_dump -U adminp -d mb_agent_adryo_dev_conmetadatos > 
 ## Ver logs de n8n
 
 docker compose logs -f n8n
+
+## Conocer el ip publico de ec2
+
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4
+18.119.40.190

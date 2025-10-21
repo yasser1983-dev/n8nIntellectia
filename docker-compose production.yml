@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     user: "1000:1000"
     ports:
-      - "8080:5678"
+      - "5678:5678"
     depends_on:
       - postgres
     environment:
@@ -24,6 +24,7 @@ services:
       N8N_BASIC_AUTH_PASSWORD: admin123
       N8N_ENCRYPTION_KEY: "906024f9-5296-4f29-840c-23d31784ee63"
       N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_SECURE_COOKIE: "false"
 
       N8N_RUNNERS_ENABLED: "true"
       N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
